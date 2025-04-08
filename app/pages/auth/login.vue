@@ -33,14 +33,15 @@ const schema = v.object({
 
 
 const state = reactive({
-  email: 'tomi@aaa.aa',
+  email: 'tomi@aaa.sk',
   password: 'Password1'
 })
 
 const toast = useToast()
 const login = async () => {
   try {
-    const response = await api.auth.login(state)
+    const {data} = await api.auth.login(state)
+    console.log(data)
     toast.add(
     { 
         title: 'Success', 
@@ -48,9 +49,10 @@ const login = async () => {
         color: 'success', 
         ui: {root: "fixed flex top-10 flex h-20 w-auto mx-auto w-96"} 
     })
-    return response
+    sessionStorage.setItem('user', JSON.stringify(data))
+    navigateTo('/dashboard')
   } catch (error) {
-    console.error('Failed to fetch users:', error.data.data.error)
+    console.error('Failed to fetch users:', error)
   }
 }
 </script>

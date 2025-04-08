@@ -6,7 +6,7 @@ export function useApiCalls() {
   const api = useApi()
   const auth = {
     login: async (credentials: { email: string, password: string }) => {
-      return await api.post<{ token: string, user: User }>('/login', credentials)
+      return await api.post<{ data: User }>('/login', credentials)
     },
     
     register: async (userData: User) => {
