@@ -1,27 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { User } from '~~/types/User'
 import type { Conference } from '~~/types/Conference'
+import type { Page } from '~~/types/Page'
 import { useApi } from './useApi'
 
 export function useApiCalls() {
   const api = useApi()
 
   const auth = {
-    login: async (credentials: { email: string, password: string }) => {
-      return await api.post<{ data: User }>('/login', credentials)
-    },
-    register: async (userData: User) => {
-      return await api.post('/register', userData)
-    },
-    logout: async () => {
-      return await api.post('/logout', {})
-    },
-    getCurrentUser: async () => {
-      return await api.get<User>('/user')
-    },
-    useCurrentUser: (immediate = true) => {
-      return api.useData<User>('/user', {}, immediate)
-    }
+    login: async (credentials: { email: string, password: string }) =>
+      await api.post<{ data: User }>('/login', credentials),
+
+    register: async (userData: User) =>
+      await api.post('/register', userData),
+
+    logout: async () => await api.post('/logout', {}),
+
+    getCurrentUser: async () => await api.get<User>('/user'),
+
+    useCurrentUser: (immediate = true) =>
+      api.useData<User>('/user', {}, immediate)
   }
 
   const conferences = {
@@ -33,28 +31,18 @@ export function useApiCalls() {
   }
 
   const pages = {
-    list: async (conferenceId: number) => api.get(`/conferences/${conferenceId}/pages`),
+    list: async (conferenceId: number) => api.get<{ data: Page[] }>(`/conferences/${conferenceId}/pages`),
     get: async (conferenceId: number, pageId: number) => api.get(`/conferences/${conferenceId}/pages/${pageId}`),
+    getById: async (pageId: number) => api.get<{ data: Page }>(`/pages/${pageId}`),
+    getBySlug: async (slug: string) => api.get<{ data: Page }>(`/pages/slug/${slug}`),
     create: async (conferenceId: number, data: any) => api.post(`/conferences/${conferenceId}/pages`, data),
     update: async (conferenceId: number, pageId: number, data: any) => api.put(`/conferences/${conferenceId}/pages/${pageId}`, data),
+    updateWithoutConference: async (pageId: number, data: any) => api.put(`/pages/${pageId}`, data),
     delete: async (conferenceId: number, pageId: number) => api.delete(`/conferences/${conferenceId}/pages/${pageId}`)
   }
+  
 
-  const editors = {
-    getAssigned: async (conferenceId: number) => api.get(`/conferences/${conferenceId}/editors`),
-    getAvailable: async (conferenceId: number) => api.get(`/conferences/${conferenceId}/available-editors`),
-    assign: async (conferenceId: number, editorId: number) => api.post(`/conferences/${conferenceId}/editors`, { editor_id: editorId }),
-    remove: async (conferenceId: number, editorId: number) => api.delete(`/conferences/${conferenceId}/editors/${editorId}`)
-  }
-
-  const files = {
-    upload: async (file: File) => {
-      const formData = new FormData()
-      formData.append('file', file)
-      return await api.post('/upload', formData)
-    },
-    get: async (id: number) => api.get(`/files/${id}`)
-  }
+  
 
   const users = {
     list: async () => api.get('/users'),
@@ -68,8 +56,6 @@ export function useApiCalls() {
     auth,
     conferences,
     pages,
-    editors,
-    files,
     users
   }
 }

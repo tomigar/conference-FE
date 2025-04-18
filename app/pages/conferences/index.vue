@@ -1,72 +1,78 @@
 <template>
-    <div class="conference-page">
-      <section class="hero">
-        <div class="overlay">
-          <h1>Správa konferencií</h1>
+  <div class="conference-page">
+    <h1 class="text-2xl font-bold mb-4">Konferencie</h1>
+
+    <div class="conference-list">
+      <div
+        v-for="conference in conferences"
+        :key="conference.id"
+        class="conference-item"
+      >
+        <NuxtLink :to="`/conferences/${conference.id}`" class="name">
+          {{ conference.name }}
+        </NuxtLink>
+        <div class="dates">
+          {{ formatDate(conference.start_date) }} - {{ formatDate(conference.end_date) }}
         </div>
-      </section>
-  
-      <section class="content">
-        <div class="header">
-          <h2>Zoznam konferencií</h2>
-          <p>Spravujte všetky konferencie z tohto rozhrania.</p>
-        </div>
-  
-        <div class="conference-grid">
-          <div
-            v-for="conference in conferences"
-            :key="conference.id"
-            class="conference-card"
-          >
-            <h3>{{ conference.name }}</h3>
-            <p>{{ conference.description }}</p>
-            <small>
-              {{ formatDate(conference.start_date) }} -
-              {{ formatDate(conference.end_date) }}<br />
-              Miesto: {{ conference.location }}
-            </small>
-            <div class="actions">
-              <nuxt-link :to="`/conferences/${conference.id}/edit`">Upraviť</nuxt-link>
-              <button v-if="conference.id" @click="deleteConference(conference.id)">
-                Odstrániť
-              </button>
-            </div>
-          </div>
-        </div>
-  
-        <div class="add-button">
-          <nuxt-link to="/conferences/newConference">Pridať novú konferenciu</nuxt-link>
-        </div>
-      </section>
+      </div>
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
-  import { useApiCalls } from '~~/composables/useApiCalls'
-  import type { Conference } from '~~/types/Conference'
-  
-  const api = useApiCalls()
-  const conferences = ref<Conference[]>([])
-  
-  onMounted(async () => {
-    const response = await api.conferences.list()
-    console.log('API RESPONSE:', response)
-    conferences.value = response.data
-  })
-  
-  function formatDate(dateStr: string): string {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' } as const
-    return new Date(dateStr).toLocaleDateString('sk-SK', options)
-  }
-  
-  async function deleteConference(id: number) {
-    if (confirm('Naozaj chcete odstrániť túto konferenciu?')) {
-      await api.conferences.delete(id)
-      conferences.value = conferences.value.filter(conf => conf.id !== id)
-    }
-  }
-  </script>
-  
-  <style scoped src="@/assets/css/conference.css"></style>
-  
+
+    <div class="mt-6">
+      <NuxtLink to="/conferences/newConference" class="btn">Pridať novú konferenciu</NuxtLink>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useApiCalls } from '~~/composables/useApiCalls'
+import type { Conference } from '~~/types/Conference'
+
+const api = useApiCalls()
+const conferences = ref<Conference[]>([])
+
+onMounted(async () => {
+  const response = await api.conferences.list()
+  conferences.value = response.data
+})
+
+function formatDate(dateStr: string): string {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' } as const
+  return new Date(dateStr).toLocaleDateString('sk-SK', options)
+}
+</script>
+
+<style scoped>
+.conference-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.conference-item {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.name {
+  font-size: 1.25rem;
+  color: #2563eb;
+  text-decoration: none;
+}
+.name:hover {
+  text-decoration: underline;
+}
+.dates {
+  font-size: 0.95rem;
+  color: #555;
+}
+.btn {
+  display: inline-block;
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.btn:hover {
+  background-color: #1e40af;
+}
+</style>
