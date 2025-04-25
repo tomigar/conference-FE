@@ -10,7 +10,7 @@
 
       <div class="form-group">
         <label for="content">Obsah</label>
-        <textarea id="content" v-model="form.content" rows="8"></textarea>
+        <Editor v-model="form.content" />
       </div>
 
       <div class="form-actions">
@@ -24,6 +24,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useApiCalls } from '~~/composables/useApiCalls'
+import Editor from '@/components/Editor.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -76,8 +77,7 @@ const submitForm = async () => {
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
-.form-group input,
-.form-group textarea {
+.form-group input {
   width: 100%;
   padding: 0.5rem;
   border-radius: 4px;

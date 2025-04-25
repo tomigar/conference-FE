@@ -10,7 +10,7 @@
 
       <div class="form-group">
         <label for="description">Popis</label>
-        <textarea id="description" v-model="conference.description"></textarea>
+        <Editor v-model="conference.description" />
       </div>
 
       <div class="form-group">
@@ -75,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+import Editor from '~/components/Editor.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useApiCalls } from '~~/composables/useApiCalls'
