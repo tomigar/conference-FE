@@ -16,3 +16,416 @@
   --color-green-900: #0a5331;
   --color-green-950: #052e16;
 }
+
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f7f7f7;
+  color: #2c3e50;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #1e3a8a;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.sidebar {
+  background-color: #eef2f7;
+  padding: 1.5rem;
+  border-radius: 8px;
+  min-width: 250px;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.sidebar a {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #1e3a8a;
+}
+
+.content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+button, .btn-edit, .btn-delete {
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+.btn-edit:hover {
+  background-color: #1e40af;
+}
+
+.btn-delete {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+}
+
+
+
+/* From ConferenceOverview.vue */
+.actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+  }
+  .btn-edit {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  .btn-edit:hover {
+    background-color: #1d4ed8;
+  }
+  .btn-delete {
+    background-color: #dc2626;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+  }
+  .btn-delete:hover {
+    background-color: #b91c1c;
+  }
+
+/* From edit-[id]-page.vue */
+.page-edit {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.form-actions {
+  text-align: right;
+}
+.form-actions button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.form-actions button:hover {
+  background-color: #1d4ed8;
+}
+
+/* From edit.vue */
+.form-page {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f7fafc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-actions {
+  text-align: right;
+  margin-top: 1rem;
+}
+input, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button {
+  background-color: #4299e1;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+}
+
+/* From index-conferences.vue */
+.conference-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.conference-item {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.name {
+  font-size: 1.25rem;
+  color: #2563eb;
+  text-decoration: none;
+}
+.name:hover {
+  text-decoration: underline;
+}
+.dates {
+  font-size: 0.95rem;
+  color: #555;
+}
+.btn {
+  display: inline-block;
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.btn:hover {
+  background-color: #1e40af;
+}
+
+/* From index-[id]-conference.vue */
+.conference-layout {
+  display: flex;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+}
+.sidebar {
+  width: 40%;
+  background-color: #eef2f7;
+  padding: 2rem;
+  border-right: 1px solid #d1d5db;
+  overflow-y: auto;
+}
+.sidebar h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar li {
+  margin-bottom: 0.5rem;
+}
+.sidebar a {
+  text-decoration: none;
+  color: #2563eb;
+}
+.sidebar a:hover {
+  text-decoration: underline;
+}
+.content {
+  width: 60%;
+  padding: 2rem;
+  background-color: #ffffff;
+  overflow-y: auto;
+}
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+.edit-btn,
+.delete-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.edit-btn {
+  background-color: #2563eb;
+  color: white;
+  text-decoration: none;
+}
+.edit-btn:hover {
+  background-color: #1e40af;
+}
+.delete-btn {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* From index-[id]-page.vue */
+.page-view {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .page-view h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .content {
+    line-height: 1.7;
+  }
+
+/* From index.vue */
+.homepage {
+  padding: 2rem;
+  text-align: center;
+}
+
+.navigation {
+  margin-top: 2rem;
+}
+
+.conference-link {
+  display: inline-block;
+  background-color: #1d4ed8;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.conference-link:hover {
+  background-color: #2563eb;
+}
+
+/* From newConference.vue */
+.form-page {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f7fafc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.form-page h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.375rem;
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-actions {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.form-actions button {
+  background-color: #4299e1;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-actions button:hover {
+  background-color: #2b6cb0;
+}
+
+/* From PageViewer.vue */
+.page-content {
+    margin-top: 1rem;
+    line-height: 1.7;
+  }
+  .actions {
+    margin-top: 2rem;
+  }
+  .btn-edit {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  .btn-edit:hover {
+    background-color: #1d4ed8;
+  }
+
+/* From [slug].vue */
+.page-view {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9fafb;
+    border-radius: 8px;
+  }
+  .title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .content {
+    font-size: 1rem;
+    line-height: 1.6;
+  }

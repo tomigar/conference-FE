@@ -1,32 +1,61 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { User } from '~~/types/User'
-import { useApi } from './useApi' // Adjust path if needed
+import type { Conference } from '~~/types/Conference'
+import type { Page } from '~~/types/Page'
+import { useApi } from './useApi'
 
 export function useApiCalls() {
   const api = useApi()
+
   const auth = {
-    login: async (credentials: { email: string, password: string }) => {
-      return await api.post<{ data: User }>('/login', credentials)
-    },
-    
-    register: async (userData: User) => {
-      return await api.post('/auth/register', userData)
-    },
-    
-    logout: async () => {
-      return await api.post('/auth/logout', {})
-    },
-    
-    getCurrentUser: async () => {
-      return await api.get<any>('/auth/user')
-    },
-    
-    // Reactive version
-    useCurrentUser: (immediate = true) => {
-      return api.useData('/auth/user', {}, immediate)
-    }
+    login: async (credentials: { email: string, password: string }) =>
+      await api.post<{ data: User }>('/login', credentials),
+
+    register: async (userData: User) =>
+      await api.post('/register', userData),
+
+    logout: async () => await api.post('/logout', {}),
+
+    getCurrentUser: async () => await api.get<User>('/user'),
+
+    useCurrentUser: (immediate = true) =>
+      api.useData<User>('/user', {}, immediate)
   }
+
+  const conferences = {
+    list: async () => api.get<{ data: Conference[] }>('/conferences'),
+    get: async (id: number) => api.get<{ data: Conference }>(`/conferences/${id}`),
+    create: async (data: Conference) => api.post('/conferences', data),
+    update: async (id: number, data: Conference) => api.put(`/conferences/${id}`, data),
+    delete: async (id: number) => api.delete(`/conferences/${id}`)
+  }
+
+  const pages = {
+    list: async (conferenceId: number) => api.get<{ data: Page[] }>(`/conferences/${conferenceId}/pages`),
+    get: async (conferenceId: number, pageId: number) => api.get(`/conferences/${conferenceId}/pages/${pageId}`),
+    getById: async (pageId: number) => api.get<{ data: Page }>(`/pages/${pageId}`),
+    getBySlug: async (slug: string) => api.get<{ data: Page }>(`/pages/slug/${slug}`),
+    create: async (conferenceId: number, data: any) => api.post(`/conferences/${conferenceId}/pages`, data),
+    update: async (conferenceId: number, pageId: number, data: any) => api.put(`/conferences/${conferenceId}/pages/${pageId}`, data),
+    updateWithoutConference: async (pageId: number, data: any) => api.put(`/pages/${pageId}`, data),
+    delete: async (conferenceId: number, pageId: number) => api.delete(`/conferences/${conferenceId}/pages/${pageId}`)
+  }
+  
+
+  
+
+  const users = {
+    list: async () => api.get('/users'),
+    get: async (id: number) => api.get(`/users/${id}`),
+    create: async (data: User) => api.post('/users', data),
+    update: async (id: number, data: User) => api.put(`/users/${id}`, data),
+    delete: async (id: number) => api.delete(`/users/${id}`)
+  }
+
   return {
     auth,
+    conferences,
+    pages,
+    users
   }
 }

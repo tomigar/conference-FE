@@ -37,9 +37,13 @@ export function useApi(options: ApiOptions = {}) {
   } = options
 
   const getAuthToken = () => {
-    // Replace with your auth token logic if needed
-    return useState('auth-token').value
+    const token = useState('auth-token').value
+    if (!token || typeof token !== 'string' || token.trim() === '' || token === 'null') {
+      return null
+    }
+    return token
   }
+  
 
   const request = async <T>(
     endpoint: string,
