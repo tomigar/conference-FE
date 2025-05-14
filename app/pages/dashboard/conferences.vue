@@ -1,40 +1,40 @@
 <template>
-  <div class="form-page">
+  <div class="form-page w-[1200px]">
     <h1>Pridať novú konferenciu</h1>
 
     <form @submit.prevent="submitForm">
       <div class="form-group">
         <label for="name">Názov konferencie</label>
-        <input id="name" v-model="form.name" required />
+        <input id="name" v-model="form.name" required >
       </div>
 
       <div class="form-group">
         <label for="description">Popis</label>
-        <textarea id="description" v-model="form.description"></textarea>
+        <textarea id="description" v-model="form.description"/>
       </div>
 
       <div class="form-group">
         <label for="location">Miesto</label>
-        <input id="location" v-model="form.location" required />
+        <input id="location" v-model="form.location" required >
       </div>
 
       <div class="form-group">
         <label for="year">Rok</label>
-        <input id="year" v-model.number="form.year" type="number" required />
+        <input id="year" v-model.number="form.year" type="number" required >
       </div>
 
       <div class="form-group">
         <label for="start_date">Dátum začiatku</label>
-        <input id="start_date" v-model="form.start_date" type="date" required />
+        <input id="start_date" v-model="form.start_date" type="date" required >
       </div>
 
       <div class="form-group">
         <label for="end_date">Dátum konca</label>
-        <input id="end_date" v-model="form.end_date" type="date" required />
+        <input id="end_date" v-model="form.end_date" type="date" required >
       </div>
 
       <div class="form-group checkbox">
-        <input type="checkbox" id="is_active" v-model="form.is_active" />
+        <input id="is_active" v-model="form.is_active" type="checkbox" >
         <label for="is_active">Konferencia je aktívna</label>
       </div>
 
@@ -52,6 +52,10 @@ import { useApiCalls } from '~~/composables/useApiCalls'
 
 const api = useApiCalls()
 const router = useRouter()
+definePageMeta({
+    layout: 'dashboard',
+    title: 'Admin Dashboard',
+})
 
 const form = ref({
   name: '',

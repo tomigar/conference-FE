@@ -17,9 +17,9 @@
       </div>
     </div>
 
-    <div class="mt-6">
+    <!-- <div class="mt-6">
       <NuxtLink to="/conferences/newConference" class="btn">Pridať novú konferenciu</NuxtLink>
-    </div>
+    </div> -->
   </div>
 </template>
 

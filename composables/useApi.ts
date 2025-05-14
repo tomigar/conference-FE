@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // composables/useApi.ts
-import { useState } from '#app'
 
 interface ApiOptions {
   baseUrl?: string
@@ -37,7 +36,7 @@ export function useApi(options: ApiOptions = {}) {
   } = options
 
   const getAuthToken = () => {
-    const token = useState('auth-token').value
+    const token = JSON.parse(sessionStorage.getItem('user') || 'null').token
     if (!token || typeof token !== 'string' || token.trim() === '' || token === 'null') {
       return null
     }
