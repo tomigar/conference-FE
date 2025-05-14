@@ -1,9 +1,10 @@
 type User = {
-    id?: number;
+    id?: number | string;
     name: string;
     email: string;
-    role: 'admin' | 'user' | 'guest';
+    role: 'admin' | 'editor' | string;
     password?: string;
+    c_password?: string;
 };
 
 export type { User };

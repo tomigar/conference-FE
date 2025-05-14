@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import type { User } from '~~/types/User'
 import type { Conference } from '~~/types/Conference'
 import type { Page } from '~~/types/Page'
@@ -31,14 +31,20 @@ export function useApiCalls() {
   }
 
   const pages = {
-    list: async (conferenceId: number) => api.get<{ data: Page[] }>(`/conferences/${conferenceId}/pages`),
-    get: async (conferenceId: number, pageId: number) => api.get(`/conferences/${conferenceId}/pages/${pageId}`),
-    getById: async (pageId: number) => api.get<{ data: Page }>(`/pages/${pageId}`),
-    getBySlug: async (slug: string) => api.get<{ data: Page }>(`/pages/slug/${slug}`),
-    create: async (conferenceId: number, data: any) => api.post(`/conferences/${conferenceId}/pages`, data),
-    update: async (conferenceId: number, pageId: number, data: any) => api.put(`/conferences/${conferenceId}/pages/${pageId}`, data),
-    updateWithoutConference: async (pageId: number, data: any) => api.put(`/pages/${pageId}`, data),
-    delete: async (conferenceId: number, pageId: number) => api.delete(`/conferences/${conferenceId}/pages/${pageId}`)
+    list: async (conferenceId: number) =>
+      api.get<{ data: Page[] }>(`/conferences/${conferenceId}/pages`),
+
+    get: async (conferenceId: number, pageId: number) =>
+      api.get<{ data: Page }>(`/conferences/${conferenceId}/pages/${pageId}`),
+
+    create: async (conferenceId: number, data: { title: string; content?: string }) =>
+      api.post<{ data: Page }>(`/conferences/${conferenceId}/pages`, data),
+
+    update: async (conferenceId: number, pageId: number, data: { title: string; content?: string }) =>
+      api.put<{ data: Page }>(`/conferences/${conferenceId}/pages/${pageId}`, data),
+
+    delete: async (conferenceId: number, pageId: number) =>
+      api.delete<{ data: null }>(`/conferences/${conferenceId}/pages/${pageId}`)
   }
   
 
@@ -48,7 +54,7 @@ export function useApiCalls() {
     list: async () => api.get('/users'),
     get: async (id: number) => api.get(`/users/${id}`),
     create: async (data: User) => api.post('/users', data),
-    update: async (id: number, data: User) => api.put(`/users/${id}`, data),
+    update: async (id: number | string, data: User) => api.put(`/users/${id}`, data),
     delete: async (id: number) => api.delete(`/users/${id}`)
   }
 
