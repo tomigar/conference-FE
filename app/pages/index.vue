@@ -10,7 +10,7 @@
 
     <!-- Odkaz na stránku konferencií -->
     <div class="navigation">
-        <div @click="navigateTo('conferences')" class="index-page">
+        <div class="index-page" @click="navigateTo('conferences')">
         Prejsť na správu konferencií
         </div>
     </div>
