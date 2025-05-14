@@ -34,13 +34,15 @@ export function useApi(options: ApiOptions = {}) {
     },
     onError = console.error
   } = options
-
   const getAuthToken = () => {
-    const token = JSON.parse(sessionStorage.getItem('user') || 'null').token
-    if (!token || typeof token !== 'string' || token.trim() === '' || token === 'null') {
-      return null
+    const user = sessionStorage.getItem('user');
+    if (!user) return null;
+    try {
+      const parsed = JSON.parse(user);
+      return parsed?.token ?? null;
+    } catch {
+      return null;
     }
-    return token
   }
   
 
