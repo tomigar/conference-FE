@@ -37,10 +37,10 @@ export function useApiCalls() {
     get: async (conferenceId: number, pageId: number) =>
       api.get<{ data: Page }>(`/conferences/${conferenceId}/pages/${pageId}`),
 
-    create: async (conferenceId: number, data: { title: string; content?: string }) =>
+    create: async (conferenceId: number, data: { title: string; content?: string, slug?: string }) =>
       api.post<{ data: Page }>(`/conferences/${conferenceId}/pages`, data),
 
-    update: async (conferenceId: number, pageId: number, data: { title: string; content?: string }) =>
+    update: async (conferenceId: number, pageId: number, data: { title: string; content?: string, slug?: string }) =>
       api.put<{ data: Page }>(`/conferences/${conferenceId}/pages/${pageId}`, data),
 
     delete: async (conferenceId: number, pageId: number) =>

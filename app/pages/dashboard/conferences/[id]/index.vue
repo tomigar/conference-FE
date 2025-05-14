@@ -19,20 +19,26 @@
       <UButton variant="ghost" color="neutral" @click="$router.push('/dashboard/conferences')">Cancel</UButton>
       <UButton variant="solid" color="primary" @click="createConference">Save</UButton>
     </div>
+    <div class="flex gap-4 justify-between">
     <h1 class="text-2xl font-bold">Subpages</h1>
+      <UButton variant="solid" color="primary" @click="$router.push(`/dashboard/conferences/${conferenceId}/subpage/create`)">Add Subpage</UButton>
+    </div>
     <div v-for="subpage in subpages" :key="subpage.id">
-        {{ subpage.title }}
+        <div class="p-4 bg-gray-100 dark:bg-slate-10 text-left text-gray-700" @click="$router.push(`/dashboard/conferences/${conferenceId}/subpage/${subpage.id}`)">
+            {{ subpage.title }}
+            <UButton icon='i-lucide-edit' variant='ghost' color='neutral' @click="$router.push(`/dashboard/conferences/${conferenceId}/subpages/${subpage.id}`)"/>
+            <UButton icon='i-lucide-trash-2' variant='ghost' color='neutral' @click="deletePage(subpage.id)"/>
+
+        </div>
     </div>
 
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useApiCalls } from '~~/composables/useApiCalls'
-
-const router = useRouter()
 
 definePageMeta({
     layout: 'dashboard',
@@ -44,6 +50,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 const conferenceId =  parseInt(route.params.id as string, 10)
 const conference = ref({
     name: '',
@@ -55,7 +62,12 @@ const conference = ref({
     is_active: 1,
 })
 
-const subpages = ref([])
+interface Subpage {
+    id: number
+    title: string
+    // add other properties if needed
+}
+const subpages = ref<Subpage[]>([])
 
 const selctActiveItems = [
     { label: 'Active', value: 1 },
@@ -76,6 +88,15 @@ const createConference = async () => {
     }
 }
 
+const deletePage = async (id: number) => {
+    try {
+        await useApiCalls().pages.delete(conferenceId, id)
+        subpages.value = subpages.value.filter(subpage => subpage.id !== id)
+    } catch (error) {
+        console.error('Error deleting page:', error)
+    }
+}
+
 onMounted(async () => {
     if (conferenceId) {
         const response = await useApiCalls().conferences.get(conferenceId)
@@ -89,7 +110,6 @@ onMounted(async () => {
         const subpagesResponse = await useApiCalls().pages.list(conferenceId)
         subpages.value = (subpagesResponse as { data: typeof subpages.value }).data
         console.log('Subpages:', subpages.value)
-        console.log(await useApiCalls().pages.get(1, 1))
     }
 })
 </script>
