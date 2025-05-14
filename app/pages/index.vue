@@ -14,8 +14,8 @@
       <div
         v-for="conference in conferences"
         :key="conference.id"
-        @click="navigateTo(`/${conference.id}`)"
         class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white hover:bg-blue-50 border border-blue-100 shadow-sm hover:shadow-md transition-all cursor-pointer rounded-xl px-6 py-5"
+        @click="navigateTo(`/${conference.id}`)"
       >
         <!-- Názov -->
         <div class="text-xl sm:text-2xl font-semibold text-blue-900 truncate">

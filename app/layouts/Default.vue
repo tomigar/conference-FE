@@ -17,7 +17,14 @@
         &copy; {{ new Date().getFullYear() }} Všetky práva vyhradené.
       </footer>
     </div>
-  </template>
-  
-  
-  
+</template>
+
+<script setup lang="ts">
+const colorMode = useColorMode();
+colorMode.preference = 'light';
+
+</script>
+
+<style scoped>
+
+</style>

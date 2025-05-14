@@ -6,7 +6,7 @@ type Conference = {
     location: string
     start_date: string
     end_date: string
-    is_active: boolean
+    is_active: boolean | number
     created_at?: string
     updated_at?: string
   }
