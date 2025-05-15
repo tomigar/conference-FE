@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col items-center justify-center h-screen">
-        <div class="p-4 bg-slate-950 rounded-lg shadow-md">
+        <div class="p-4  rounded-lg shadow-md">
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="login">
                 <UFormField label="Email" name="email">
                     <UInput v-model="state.email" />
@@ -50,7 +50,7 @@ const login = async () => {
         ui: {root: "fixed flex top-10 flex h-20 w-auto mx-auto w-96"} 
     })
     sessionStorage.setItem('user', JSON.stringify(data))
-    navigateTo('/dashboard')
+    navigateTo('/dashboard/conferences')
   } catch (error) {
     console.error('Failed to fetch users:', error)
   }

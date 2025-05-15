@@ -19,21 +19,39 @@
       <UButton variant="ghost" color="neutral" @click="$router.push('/dashboard/conferences')">Cancel</UButton>
       <UButton variant="solid" color="primary" @click="createConference">Save</UButton>
     </div>
+   
+    
     <div class="flex gap-4 justify-between">
-    <h1 class="text-2xl font-bold">Subpages</h1>
-      <UButton variant="solid" color="primary" @click="$router.push(`/dashboard/conferences/${conferenceId}/subpage/create`)">Add Subpage</UButton>
+        <h1 class="text-2xl font-bold">Subpages</h1>
+        <UButton variant="solid" color="primary" @click="$router.push(`/dashboard/conferences/${conferenceId}/subpage/create`)">Add Subpage</UButton>
     </div>
-    <div v-for="subpage in subpages" :key="subpage.id">
+    <div v-if="!subpages.length">
+        <LoadingSpinner />
+    </div>
+    <div v-for="subpage in subpages" v-else :key="subpage.id">
         <div class="p-4 bg-gray-100 dark:bg-slate-10 text-left text-gray-700" @click="$router.push(`/dashboard/conferences/${conferenceId}/subpage/${subpage.id}`)">
             {{ subpage.title }}
             <UButton icon='i-lucide-edit' variant='ghost' color='neutral' @click="$router.push(`/dashboard/conferences/${conferenceId}/subpages/${subpage.id}`)"/>
             <UButton icon='i-lucide-trash-2' variant='ghost' color='neutral' @click="deletePage(subpage.id)"/>
-
         </div>
     </div>
 
-  </div>
-</template>
+     <div class="flex gap-4 justify-between">
+        <h1 class="text-2xl font-bold">Editors</h1>
+         <UButton variant="solid" color="primary" @click="$router.push(`/dashboard/conferences/${conferenceId}/editors`)">Manage Editor</UButton>
+    </div>
+     <div v-if="!assignedEditors.length">
+        <LoadingSpinner not-loaded-text="No assigned editors" />
+    </div>
+    <div v-else class="flex gap-4">
+        <div v-for="editor in assignedEditors" :key="editor.id">
+            <div class="p-4 bg-gray-100 dark:bg-slate-10 text-left text-gray-700">
+                {{ editor.name }}
+            </div>
+    
+      </div>
+    </div>
+</div></template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
@@ -67,6 +85,7 @@ interface Subpage {
     title: string
     // add other properties if needed
 }
+const assignedEditors = ref<{ id: number; name: string }[]>([])
 const subpages = ref<Subpage[]>([])
 
 const selctActiveItems = [
@@ -109,7 +128,10 @@ onMounted(async () => {
         ]
         const subpagesResponse = await useApiCalls().pages.list(conferenceId)
         subpages.value = (subpagesResponse as { data: typeof subpages.value }).data
-        console.log('Subpages:', subpages.value)
+
+        const responseEditors = await useApiCalls().editors.list(conferenceId);
+        assignedEditors.value = (responseEditors as { data: typeof assignedEditors.value }).data
+        console.log('Editors:', assignedEditors.value)
     }
 })
 </script>

@@ -1,40 +1,16 @@
 <template>
    <div @click="() => navigateTo('dashboard')">
-       <h1>Conference</h1>
-       <h2>Welcome to the conference</h2>
-   </div>
-
-   <div class="homepage">
-    <h1>Vitajte v systéme konferencií</h1>
-    <p>Spravujte ročníky, podstránky a používateľov konferencie.</p>
-
-    <!-- Odkaz na stránku konferencií -->
-    <div class="navigation">
-        <div class="index-page" @click="navigateTo('conferences')">
-        Prejsť na správu konferencií
-        </div>
-    </div>
+    aaa
   </div>
 
 
 </template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script setup>
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+  router.push('/conferences')
+
 </script>
 
 <style scoped>

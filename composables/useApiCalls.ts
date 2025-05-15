@@ -58,10 +58,21 @@ export function useApiCalls() {
     delete: async (id: number) => api.delete(`/users/${id}`)
   }
 
+  const editors = {
+    list: async (conferenceId: number) => api.get(`/conferences/${conferenceId}/editors`),
+    available: async (conferenceId: number) =>
+      api.get(`/conferences/${conferenceId}/available-editors`),
+    assign: async (conferenceId: number, userId: number) =>
+      api.post(`/conferences/${conferenceId}/editors`, { editor_id: userId }),
+    unassign: async (conferenceId: number, userId: number) =>
+      api.delete(`/conferences/${conferenceId}/editors/${userId}`)
+  }
+
   return {
     auth,
     conferences,
     pages,
-    users
+    users,
+    editors
   }
 }

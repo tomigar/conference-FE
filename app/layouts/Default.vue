@@ -1,8 +1,5 @@
 <template>
     <div>
-        <header>
-            <h1>Conference</h1>
-        </header>
         <main class="max-w-6xl mx-auto h-screen">
             <slot />
         </main>
