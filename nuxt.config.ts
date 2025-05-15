@@ -1,12 +1,16 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: [
-    '@nuxt/ui',
-    '@nuxt/eslint'
-  ],
+  modules: ['@nuxt/ui', '@nuxt/eslint', 'nuxt-tiptap-editor'],
 
   components: true,
+
+  tiptap: {
+    prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
+    lowlight: {
+      theme: 'github-dark',
+    },
+  },
 
   
   css: [
