@@ -15,7 +15,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useApiCalls } from '~~/composables/useApiCalls'
 
 definePageMeta({
