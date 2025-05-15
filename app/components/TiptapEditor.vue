@@ -128,10 +128,16 @@ icon="i-lucide-bold"
 </template>
 
 <script setup>
+import { onMounted, onBeforeUnmount, watch, unref } from 'vue'
 import TiptapStarterKit from '@tiptap/starter-kit'
+import TiptapCodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { createLowlight } from 'lowlight'
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: String,
+    required: true,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -141,10 +147,9 @@ const lowlight = createLowlight(allLanguages);
 const editor = useEditor({
   content: props.modelValue,
   onUpdate: ({ editor }) => {
-    // console.log(editor.getHTML())
     emit('update:modelValue', editor.getHTML())
   },
-   extensions: [
+  extensions: [
     TiptapStarterKit.configure({
       codeBlock: false,
     }),
@@ -158,8 +163,18 @@ const editor = useEditor({
   },
 })
 
+// Watch for changes in modelValue and update editor content if needed
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (editor.value && newValue !== editor.value.getHTML()) {
+      editor.value.commands.setContent(newValue, false)
+    }
+  }
+)
+
 onBeforeUnmount(() => {
-  unref(editor).destroy();
+  unref(editor)?.destroy();
 });
 </script>
 

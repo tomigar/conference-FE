@@ -10,12 +10,11 @@
             <UButton variant="ghost" color="neutral" @click="$router.push('/dashboard/conferences')">Cancel</UButton>
             <UButton variant="solid" color="primary" @click="editSubpage()">Save</UButton>
         </div>
-        {{ editorContent }}
     </ClientOnly>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useApiCalls } from '~~/composables/useApiCalls'
 
 definePageMeta({
@@ -33,6 +32,8 @@ const subpage = ref({
     content: '',
 })
 const editorContent = ref('')
+
+const apiCalls = useApiCalls()
 
 
 const route = useRoute()
@@ -56,7 +57,7 @@ const editSubpage = async () => {
 
 onMounted(async () => {
     if (conferenceId) {
-        const response = await useApiCalls().pages.get(conferenceId, subpageId)
+        const response = await apiCalls.pages.get(conferenceId, subpageId)
         subpage.value = (response as { data: typeof subpage.value }).data
         editorContent.value = subpage.value.content
         route.meta.breadcrumbs = [
