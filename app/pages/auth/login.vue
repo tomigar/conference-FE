@@ -33,8 +33,8 @@ const schema = v.object({
 
 
 const state = reactive({
-  email: 'tomi@aaa.sk',
-  password: 'Password1'
+  email: '',
+  password: ''
 })
 
 const toast = useToast()

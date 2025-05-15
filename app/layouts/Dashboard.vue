@@ -14,6 +14,12 @@
         <template #fallback>
           <div class="size-8" />
         </template>
+        <UButton
+          icon="i-lucide-log-out"
+          color="neutral"
+          variant="ghost"
+          @click="logout()"
+        />
       </ClientOnly>
     </header>
       <div class="flex p-2">
@@ -30,6 +36,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem, BreadcrumbItem  } from '@nuxt/ui'
 import { useRoute } from 'vue-router'
+import { useApiCalls } from '~~/composables/useApiCalls'
 
 const route = useRoute()
 
@@ -78,6 +85,11 @@ const breadcrumbs = computed<BreadcrumbItem[]>(() =>
   Array.isArray(route.meta.breadcrumbs) ? route.meta.breadcrumbs as BreadcrumbItem[] : []
 )
 
+const logout = async() => {
+  await useApiCalls().auth.logout()
+  sessionStorage.removeItem('user')
+  window.location.href = '/'
+}
 
 onMounted(() => {
   colorMode.preference = 'light'
