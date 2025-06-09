@@ -37,6 +37,10 @@ export function useApiCalls() {
     get: async (conferenceId: number, pageId: number) =>
       api.get<{ data: Page }>(`/conferences/${conferenceId}/pages/${pageId}`),
 
+    getById: async (pageId: number) => api.get<{ data: Page }>(`/pages/${pageId}`),
+    getBySlug: async (slug: string) => api.get<{ data: Page }>(`/pages/slug/${slug}`),
+    
+
     create: async (conferenceId: number, data: { title: string; content?: string, slug?: string }) =>
       api.post<{ data: Page }>(`/conferences/${conferenceId}/pages`, data),
 
@@ -45,6 +49,7 @@ export function useApiCalls() {
 
     delete: async (conferenceId: number, pageId: number) =>
       api.delete<{ data: null }>(`/conferences/${conferenceId}/pages/${pageId}`)
+    
   }
   
 

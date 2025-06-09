@@ -2,10 +2,13 @@
     <div class="flex flex-col min-h-screen bg-gradient-to-br from-gray-100 to-white text-gray-900">
       <!-- HEADER -->
       <header class="shadow bg-white sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 class="text-xl font-bold tracking-tight">Konferenčný systém</h1>
-        </div>
-      </header>
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <h1 class="text-xl font-bold tracking-tight">Konferenčný systém</h1>
+    <NuxtLink to="/dashboard" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Prihlásiť sa
+    </NuxtLink>
+  </div>
+</header>
   
       <!-- MAIN CONTENT -->
       <main class="container mx-auto px-4 py-8 flex-1">
