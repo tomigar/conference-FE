@@ -2,8 +2,29 @@
   <div v-if="page">
     <h1>{{ page.title }}</h1>
     <div class="page-content" v-html="page.content" />
-    <div class="actions">
-     
+
+    <!-- Zobrazenie priradených súborov -->
+    <div class="attachments mt-6">
+      <h2 class="text-lg font-semibold mb-2">Priložené súbory:</h2>
+      <div v-if="files.length">
+        <div
+          v-for="file in files"
+          :key="file.id"
+          class="mb-4 border p-2 rounded bg-gray-50"
+        >
+          <div v-if="file.mime_type.startsWith('image/')">
+            <img :src="file.url" :alt="file.name" class="max-w-xs rounded" />
+          </div>
+          <div v-else>
+            <a :href="file.url" target="_blank" class="text-blue-600 underline">
+              {{ file.name }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <p class="text-sm text-gray-500">Žiadne priložené súbory.</p>
+      </div>
     </div>
   </div>
   <div v-else class="text-red-600">Podstránka sa nenašla.</div>
@@ -11,20 +32,28 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useApiCalls } from '~~/composables/useApiCalls'
 import type { Page } from '~~/types/Page'
 
 const props = defineProps<{ conferenceId: number, pageId: number }>()
-const api = useApiCalls()
 
 const page = ref<Page | null>(null)
+const files = ref<any[]>([]) // môžeš nahradiť typovaním cez vlastný File typ
 
 const fetchPage = async () => {
   try {
-    const res = await $fetch<{ data: Page }>(`http://localhost:8000/api/conferences/${props.conferenceId}/pages/${props.pageId}`)
+    // Načítaj podstránku
+    const res = await $fetch<{ data: Page }>(
+      `http://localhost:8000/api/conferences/${props.conferenceId}/pages/${props.pageId}`
+    )
     page.value = res.data
+
+    // Načítaj priradené súbory
+    const fileRes = await $fetch<{ data: any[] }>(
+      `http://localhost:8000/api/pages/${props.pageId}/files`
+    )
+    files.value = fileRes.data || []
   } catch (err) {
-    console.error('❌ Chyba pri načítaní podstránky:', err)
+    console.error('❌ Chyba pri načítaní podstránky alebo súborov:', err)
     page.value = null
   }
 }
@@ -40,14 +69,7 @@ watch(() => [props.conferenceId, props.pageId], fetchPage, { immediate: true })
 .actions {
   margin-top: 2rem;
 }
-.btn-edit {
-  background-color: #2563eb;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  text-decoration: none;
-}
-.btn-edit:hover {
-  background-color: #1d4ed8;
+.attachments img {
+  margin-top: 0.5rem;
 }
 </style>

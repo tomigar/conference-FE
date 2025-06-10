@@ -123,6 +123,7 @@ icon="i-lucide-bold"
         redo
       </UButton>
     </div>
+    <input type="file" accept="image/*" @change="uploadImage" class="my-2" />
     <TiptapEditorContent :editor="editor" />
   </div>
 </template>
@@ -132,6 +133,11 @@ import { onMounted, onBeforeUnmount, watch, unref } from 'vue'
 import TiptapStarterKit from '@tiptap/starter-kit'
 import TiptapCodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { createLowlight } from 'lowlight'
+import { common } from 'lowlight'
+
+import { useEditor, EditorContent as TiptapEditorContent } from '@tiptap/vue-3'
+import Image from '@tiptap/extension-image' 
+
 
 const props = defineProps({
   modelValue: {
@@ -142,7 +148,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const lowlight = createLowlight(allLanguages);
+const lowlight = createLowlight(common);
 
 const editor = useEditor({
   content: props.modelValue,
@@ -154,6 +160,7 @@ const editor = useEditor({
       codeBlock: false,
     }),
     TiptapCodeBlockLowlight.configure({ lowlight }),
+     Image,
   ],
   editorProps: {
     attributes: {
@@ -162,6 +169,28 @@ const editor = useEditor({
     },
   },
 })
+
+const uploadImage = async (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await fetch('http://localhost:8000/api/files', {
+      method: 'POST',
+      body: formData,
+    })
+
+    const data = await response.json()
+    const imageUrl = data.url || data.path
+
+    editor.value.chain().focus().setImage({ src: imageUrl }).run()
+  } catch (error) {
+    console.error('Error uploading image:', error)
+  }
+}
 
 // Watch for changes in modelValue and update editor content if needed
 watch(
